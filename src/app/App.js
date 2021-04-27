@@ -1,31 +1,41 @@
-import React from 'react'
+import React, { useState } from "react";
+import AppContext from "./appContext";
 
-import './App.css'
+import "./App.css";
 
-import Header from './components/Header'
-import Footer from './components/Footer'
-import Main from './components/Main'
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Main from "./components/Main";
+import styled from "styled-components";
 
-class App extends React.Component {
-    state = {
-        isGrid: true
-    }
+const App = () => {
+  const [isGrid, setGrid] = useState(true);
+  const [isDark, setDark] = useState(false);
 
-    onChangeView = () => {
-        this.setState({
-            isGrid: !this.state.isGrid
-        })
-    }
+  const onChangeView = () => {
+    setGrid(!isGrid);
+  };
 
-    render() {
-        return (
-            <>
-                <Header title="App" onSwitchView={this.onChangeView} />
-                <Main isGrid={this.state.isGrid} />
-                <Footer />
-            </>
-        )
-    }
-}
+  const onDarkChange = () => {
+    setDark(!isDark);
+  };
 
-export default App
+  return (
+    <>
+      <AppContext.Provider
+        value={{
+          isGrid: isGrid,
+          isDark: isDark,
+          setDark: onDarkChange,
+          onSwitchView: onChangeView
+        }}
+      >
+        <Header />
+        <Main />
+        <Footer />
+      </AppContext.Provider>
+    </>
+  );
+};
+
+export default App;
